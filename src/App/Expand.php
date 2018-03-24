@@ -1,16 +1,17 @@
 <?php
 
-namespace Echowebid\Rajaongkir\App;
+namespace Echowebid\Bitly\App;
 
 class Expand extends Api 
 {
-    protected $method = "post";
-
     public function __construct($args)
     {
         parent::__construct();
-        $query = ['access_token' => $this->access_token, 'longUrl' => $agrs];
-        $this->options = [CURLOPT_URL  => $this->endpoint . '/v3/?=' . http_build_query($query)];
-        $this->getData();
+        $query = ['access_token' => $this->access_token, 'shortUrl' => $args];
+        $this->options = [
+            CURLOPT_URL => $this->endpoint . 'v3/expand?' . http_build_query($query)
+        ];
+        $this->sendResponse();
+        $this->method = 'expand';
     }
 }

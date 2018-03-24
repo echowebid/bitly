@@ -2,6 +2,7 @@
 
 namespace Echowebid\Bitly;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 
 class BitlyServiceProvider extends ServiceProvider

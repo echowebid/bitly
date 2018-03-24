@@ -1,6 +1,6 @@
 <?php
 
-namespace Echowebid\Rajaongkir\App;
+namespace Echowebid\Bitly\App;
 
 use Exception;
 
@@ -10,13 +10,12 @@ abstract class Api
     protected $data;
     protected $endpoint;
     protected $method;
-    protected $url;
-    protected $parameter = [];
 
     public function __construct()
     {
-        $this->endpoint = config('bitly.endpoint', 'http://rajaongkir.com/api/starter');
+        $this->endpoint = config('bitly.endpoint', 'https://api-ssl.bitly.com/');
         $this->access_token = config('bitly.access_token', '1q2w3e4r5t6y7u8i9o0p');
+        $this->method = 'shorten';
     }
 
     public function sendResponse(){
@@ -24,11 +23,10 @@ abstract class Api
         $curl = curl_init();
 
         $curl_options = [
-            CURLOPT_ENCODING           => "",
-            CURLOPT_MAXREDIRS          => 10,
-            CURLOPT_RETURNTRANSFER     => true,
-            CURLOPT_SSL_VERIFYPEER     => 0,
-            CURLOPT_TIMEOUT            => 30
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false,
         ];
         
         if ( $this->options && is_array($this->options) )
@@ -49,8 +47,12 @@ abstract class Api
             throw new Exception($curl_error, 1);    
         } else 
         {
-            $data = json_decode($response, true);
-            $this->data = json_decode($response, true);
+            $response_decode = json_decode($response, true);
+            if ($response_decode['status_code'] != 200)
+            {
+                throw new Exception($response_decode['status_txt'], 1);
+            }
+            $this->data = $response_decode;
             return $this;
         }
     }
@@ -65,6 +67,14 @@ abstract class Api
   
     public function get()
     {
-        return $this->data;
+        if ( $this->method == 'clicks' ) {
+            return isset($this->data['data']['link_clicks']) ? $this->data['data']['link_clicks'] : 0;
+        } elseif ( $this->method == 'expand' ) {
+            return isset($this->data['data']['expand'][0]['long_url']) ? $this->data['data']['expand'][0]['long_url'] : null;
+        } elseif ( $this->method == 'shorten' ) {
+            return isset($this->data['data']['url']) ? $this->data['data']['url'] : '';
+        }
+        
+        return null;
     }
 }

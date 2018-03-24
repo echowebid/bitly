@@ -7,7 +7,7 @@ return [
      * https://dev.bitly.com/
      */
     
-    "endpointapi" => env("BITLY_ENDPOINTAPI", "https://api-ssl.bitly.com/"),
+    "endpoint" => env("BITLY_ENDPOINT", "https://api-ssl.bitly.com/"),
 
     /**
      * Bitly Generic Access Token

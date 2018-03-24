@@ -2,18 +2,24 @@
 
 namespace Echowebid\Bitly;
 
+use Echowebid\Bitly\App\Clicks;
 use Echowebid\Bitly\App\Expand;
 use Echowebid\Bitly\App\Shorten;
 
-class RajaOngkir 
+class Bitly 
 {
-    public function Shorten()
+    public function Clicks($attr)
     {
-        return new Shorten;
+        return new Clicks($attr);
     }
     
-    public function Expand()
+    public function Expand($attr)
     {
-        return new Expand;
+        return new Expand($attr);
+    }
+
+    public function Shorten($attr)
+    {
+        return new Shorten($attr);
     }
 }
