@@ -14,6 +14,6 @@ return [
      * https://api.bitly.com/
      */
     
-    "access_token" => env("BITLY_ACCESSTOKEN", "b4149b5f2fe58716013de0984c9d7dbb6320834a"),
+    "access_token" => env("BITLY_ACCESSTOKEN", ""),
 
 ];
