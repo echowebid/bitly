@@ -60,7 +60,7 @@ abstract class Api
     public function count()
     {
         if ( empty($this->data) )
-            $this->data = $this->getData()->data;
+            return 0;
 
         return count($this->data);
     }
